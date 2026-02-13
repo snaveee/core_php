@@ -20,7 +20,7 @@ if($_POST && isset($_POST['clearEntries'])){
     header("Location: $entryURL", true, 301);
 }
 
-if($_POST && isset($_POST['saveNewSchoolEntry'])){
+if($_POST && isset($_POST['saveNewSchoolEntry'])) {
     $schoolID = $_POST['schoolID'];
     $schoolFullName = $_POST['schoolFullName'];
     $schoolShortName = $_POST['schoolShortName'];
@@ -71,4 +71,25 @@ if($_POST && isset($_POST['saveNewSchoolEntry'])){
     } else {
         header("Location: $entryURL", true, 301);
     }
+}
+
+if($_POST && isset($_POST['confirmDelete'])) {
+    $schoolID = $_POST['schoolID'];
+
+    $dbStatement = $db->prepare('DELETE FROM colleges WHERE collid = ?');
+    $dbResult = $dbStatement->execute([$schoolID]);
+
+    if($dbResult) {
+        $_SESSION['messages']['updateSuccess'] = "School entry deleted successfully.";
+        $_SESSION['messages']['updateError'] = "";
+
+        $_SESSION['input']['schoolID'] = null;
+        $_SESSION['input']['schoolFullName'] = null;
+        $_SESSION['input']['schoolShortName'] = null;
+    } else {
+        $_SESSION['messages']['updateError'] = "Failed to delete school entry.";
+        $_SESSION['messages']['updateSuccess'] = "";
+    }
+    header("Location: $entryURL", true, 301);
+    exit;
 }

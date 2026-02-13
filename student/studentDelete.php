@@ -22,7 +22,7 @@
     <?php echo $_SESSION['messages']['updateError'] ?? null; ?>
 </span>
 
-<?php if (!empty($_SESSION['messages']['updateSuccess'])): ?>
+<?php if(!empty($_SESSION['messages']['updateSuccess'])): ?>
     <a href="index.php?section=student&page=studentList&schoolID=<?= $schoolID ?>&departmentID=<?= $departmentID ?>&progid=<?= $programID ?>" class="btn btn-primary">Back to Student List</a>
 <?php else: ?>
 

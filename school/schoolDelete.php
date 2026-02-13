@@ -14,7 +14,12 @@
     <?php echo $_SESSION['messages']['updateSuccess'] ?? null; ?>
     <?php echo $_SESSION['messages']['updateError'] ?? null; ?>
 </span>
-<form action="index.php?section=school&page=processDataChanges" method="post">
+
+<?php if(!empty($_SESSION['messages']['updateSuccess'])): ?>
+    <a href="index.php?section=school&page=schoolList" class="btn btn-primary">Back to School List</a>
+<?php else: ?>
+
+<form action="index.php?section=school&page=processSchoolData" method="post">
     <table>
         <tr>
             <td style="width: 10em;">School ID:</td>
@@ -49,4 +54,5 @@
             </td>
         </tr>
     </table>
-</form>    
+    <?php endif ?>
+</form>
