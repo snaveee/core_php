@@ -4,6 +4,9 @@
     session_regenerate_id();
 
     $studentID = $_GET['studid'];
+    $schoolID = $_GET['schoolID'];
+    $departmentID = $_GET['departmentID'];
+    $programID = $_GET['progid'];
 
     if($studentID) {
         $dbStatement = $db->prepare("SELECT * FROM students WHERE studid = :studentID");
@@ -20,7 +23,7 @@
 </span>
 
 <?php if (!empty($_SESSION['messages']['updateSuccess'])): ?>
-    <a href="index.php?section=student&page=studentList" class="btn btn-primary">Back to Student List</a>
+    <a href="index.php?section=student&page=studentList&schoolID=<?= $schoolID ?>&departmentID=<?= $departmentID ?>&progid=<?= $programID ?>" class="btn btn-primary">Back to Student List</a>
 <?php else: ?>
 
 <form action="index.php?section=student&page=processStudentData" method="post">

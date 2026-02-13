@@ -142,9 +142,9 @@ if($_POST && isset($_POST['confirmDelete'])) {
         $_SESSION['input']['studentLastName'] = null;
         $_SESSION['input']['studentFirstName'] = null;
         $_SESSION['input']['studentMiddleName'] = null;
-        $_SESSION['input']['studentCollegeDepartmentID'] = null;
-        $_SESSION['input']['studentProgramID'] = null;
-        $_SESSION['input']['studentCollegeID'] = null;
+        $_SESSION['input']['departmentID'] = null;
+        $_SESSION['input']['programID'] = null;
+        $_SESSION['input']['schoolID'] = null;
         $_SESSION['input']['studentYear'] = null;
     } else {
         $_SESSION['messages']['updateError'] = "Failed to delete student entry";
