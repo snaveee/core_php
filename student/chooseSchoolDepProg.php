@@ -1,21 +1,47 @@
 <?php
     require_once("data/db.php");
     session_start();
-    session_destroy();
+    session_regenerate_id();
+
+    if(isset($_GET['collegeID'])) {
+        $_SESSION['selectedCollegeID'] = (int)$_GET['collegeID'];
+    }
+
+    if(isset($_GET['departmentID'])) {
+        $_SESSION['selectedDepartmentID'] = (int)$_GET['departmentID'];
+    }
+
+    if(isset($_GET['programID'])) {
+        $_SESSION['selectedProgramID'] = (int)$_GET['programID'];
+    }
 
     $dbStatement = $db->prepare("SELECT * FROM colleges");
     $dbStatement->execute();
     $schools = $dbStatement->fetchAll();
 
+    if(!empty($_GET['schoolID'])) {
+        $dbStatement = $db->prepare("SELECT * FROM departments WHERE deptcollid = ?");
+        $dbStatement->execute([$_GET['schoolID']]);
+        $departments = $dbStatement->fetchAll();
+    } else {
+        $departments = [];
+    }
     
-    $dbStatement = $db->prepare("SELECT * FROM departments");
-    $dbStatement->execute();
-    $departments = $dbStatement->fetchAll();
+    // $dbStatement = $db->prepare("SELECT * FROM departments");
+    // $dbStatement->execute();
+    // $departments = $dbStatement->fetchAll();
     
-    
-    $dbStatement = $db->prepare("SELECT * FROM programs");
-    $dbStatement->execute();
-    $programs = $dbStatement->fetchAll();
+    if(!empty($_GET['departmentID'])) {
+        $dbStatement = $db->prepare("SELECT * FROM programs WHERE progcolldeptid = ?");
+        $dbStatement->execute([$_GET['departmentID']]);
+        $programs = $dbStatement->fetchAll();
+    } else {
+        $programs = [];
+    }
+
+    // $dbStatement = $db->prepare("SELECT * FROM programs");
+    // $dbStatement->execute();
+    // $programs = $dbStatement->fetchAll();
 
 ?>
 

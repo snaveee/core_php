@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <a href="index.php?section=student&page=studentList" class="btn btn-primary">
+                <a href="index.php?section=student&page=studentList&schoolID=<?= $schoolID ?>&departmentID=<?= $departmentID ?>&progid=<?= $programID ?>" class="btn btn-primary">
                     Cancel Operation
                 </a>                
                 <button type="submit" name="confirmDelete" class="btn btn-danger">

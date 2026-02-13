@@ -3,6 +3,9 @@
     session_start();
     session_regenerate_id();
 
+    $schoolID = $_GET['schoolID'];
+    $departmentID = $_GET['departmentID'];
+    $programID = $_GET['progid'];
     $studentID = $_GET['studid'];
 
     $dbStatement = $db->prepare("SELECT * FROM students WHERE studid = :studentID");
@@ -14,7 +17,7 @@
     <?php echo $_SESSION['messages']['updateSuccess'] ?? null; ?>
     <?php echo $_SESSION['messages']['updateError'] ?? null; ?>
 </span>
-<form action="index.php?section=student&page=processStudentDataChanges" method="post">
+<form action="index.php?section=student&page=processStudentDataChanges&schoolID=<?= $schoolID ?>&departmentID=<?= $departmentID ?>&progid=<?= $programID ?>" method="post">
     <table>
         <tr>
             <td style="width: 10em;">Student ID:</td>
@@ -39,35 +42,15 @@
             </td>                
         </tr>
 
-        <!-- <tr>
-            <td>Student Program ID:</td>
-            <td><input type="text" id="studentProgramID" name="studentProgramID" value="<?php //  echo $student['studprogid']; ?>" class="data-input"></td>
-            <td>
-                <span>
-                    <?php // echo $_SESSION['errors']['studentProgramID'] ?? null; ?>
-                </span>
-            </td>                
-        </tr> -->
-
-        <!-- <tr>
-            <td>Student College ID:</td>
-            <td><input type="text" id="studentCollegeID" name="studentCollegeID" value="<?php // echo $student['studcollid']; ?>" class="data-input"></td>
-            <td>
-                <span>
-                    <?php // echo $_SESSION['errors']['studentCollegeID'] ?? null; ?>
-                </span>
-            </td>                
-        </tr> -->
-
-        <!-- <tr>
+        <tr>
             <td>Student Year Level:</td>
-            <td><input type="text" id="studentYear" name="studentYear" value="<?php // echo $student['studyear']; ?>" class="data-input"></td>
+            <td><input type="text" id="studentYear" name="studentYear" value="<?php echo $student['studyear']; ?>" class="data-input"></td>
             <td>
                 <span>
-                    <?php // echo $_SESSION['errors']['studentYear'] ?? null; ?>
+                    <?php echo $_SESSION['errors']['studentYear'] ?? null; ?>
                 </span>
             </td>                
-        </tr> -->
+        </tr> 
 
         <tr>
             <td colspan="2">
@@ -77,7 +60,7 @@
                 <button type="submit" name="clearChanges" class="btn">
                     Reset Form
                 </button>
-                <a href="index.php?section=student&page=studentList" class="btn btn-danger">
+                <a href="index.php?section=student&page=studentList&schoolID=<?= $schoolID ?>&departmentID=<?= $departmentID ?>&progid=<?= $programID ?>&studid=<?= $studentID ?>" class="btn btn-danger">
                     Exit
                 </a>
             </td>

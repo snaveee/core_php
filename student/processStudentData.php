@@ -30,14 +30,14 @@ if($_POST && isset($_POST['clearEntries'])) {
     header("Location: $entryURL", true, 301);
 }
 
-if($_POST && isset($_POST['saveNewStudentEntry'])) { 
+if($_POST && isset($_POST['saveNewStudentEntry'])) {
     $studentID = $_POST['studentID'];
     $studentLastName = $_POST['studentLastName'];
     $studentFirstName = $_POST['studentFirstName'];
     $studentMiddleName = $_POST['studentMiddleName'];
-    $studentCollegeDepartmentID = $_POST['studentCollegeDepartmentID'];
-    $studentProgramID = $_POST['studentProgramID'];
-    $studentCollegeID = $_POST['studentCollegeID'];
+    $studentCollegeDepartmentID = $_POST['departmentID'];
+    $studentProgramID = $_POST['programID'];
+    $studentCollegeID = $_POST['schoolID'];
     $studentYear = $_POST['studentYear'];
 
     $_SESSION['input']['studentID'] = $studentID;
@@ -48,6 +48,21 @@ if($_POST && isset($_POST['saveNewStudentEntry'])) {
     $_SESSION['input']['studentProgramID'] = $studentProgramID;
     $_SESSION['input']['studentCollegeID'] = $studentCollegeID;
     $_SESSION['input']['studentYear'] = $studentYear;
+
+    $dbStatement = $db->prepare("SELECT deptcollid FROM departments WHERE deptid = ?");
+    $dbStatement->execute([$studentCollegeDepartmentID]);
+    $studentCollegeID = $dbStatement->fetchColumn();
+
+    if($studentProgramID) {
+        $dbStatement = $db->prepare("SELECT COUNT(*) FROM programs WHERE progid = ? AND progcolldeptid = ?");
+        $dbStatement->execute([$studentProgramID, $studentCollegeDepartmentID]);
+
+        if($dbStatement->fetchColumn() == 0) {
+                $_SESSION['errors']['studentProgramID'] = "Program does not belong to selected department.";
+        } else {
+            $_SESSION['errors']['studentProgramID'] = "";
+        }
+    }
 
     if(!$_SESSION['errors']) {
         $_SESSION['errors'] = [];
@@ -75,24 +90,6 @@ if($_POST && isset($_POST['saveNewStudentEntry'])) {
         $_SESSION['errors']['studentMiddleName'] = "Invalid Middle Name entry or format";
     } else {
         $_SESSION['errors']['studentMiddleName'] = "";
-    }
-
-    if(filter_input(INPUT_POST,'studentCollegeDepartmentID', FILTER_VALIDATE_INT) === false) {
-        $_SESSION['errors']['studentCollegeDepartmentID'] = "Invalid ID entry or format";
-    } else {
-        $_SESSION['errors']['studentCollegeDepartmentID'] = "";
-    }
-
-    if(filter_input(INPUT_POST,'studentProgramID', FILTER_VALIDATE_INT) === false) {
-        $_SESSION['errors']['studentProgramID'] = "Invalid ID entry or format";
-    } else {
-        $_SESSION['errors']['studentProgramID'] = "";
-    }
-
-    if(filter_input(INPUT_POST,'studentCollegeID', FILTER_VALIDATE_INT) === false) {
-        $_SESSION['errors']['studentCollegeID'] = "Invalid ID entry or format";
-    } else {
-        $_SESSION['errors']['studentCollegeID'] = "";
     }
 
     if(filter_input(INPUT_POST,'studentYear', FILTER_VALIDATE_INT) === false) {

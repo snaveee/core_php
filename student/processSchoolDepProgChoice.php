@@ -29,7 +29,7 @@ if($_POST) {
             exit;
         }
 
-        header("Location: index.php?section=student&page=studentList&progid={$programID}&stage=program", true, 301);
+        header("Location: index.php?section=student&page=studentList&schoolID={$schoolID}&departmentID={$departmentID}&progid={$programID}&stage=program", true, 301);
         exit;
     }   
 }

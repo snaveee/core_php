@@ -29,6 +29,13 @@ $allowed_pages = [
     'chooseSchoolDepProg',
     'processSchoolChoice',
     'processSchoolDepProgChoice',
+    'chooseSchoolDepartment',
+    'processProgramData',
+    'processSchoolDepartmentChoice',
+    'programCreate',
+    'programDelete',
+    'programList',
+    'programUpdate',
     '500',
     '404',
 ];
